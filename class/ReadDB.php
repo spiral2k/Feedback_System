@@ -55,17 +55,17 @@ session_start();
                     
                     header("Location: mashov.php");
                     
-                }else{
-                     echo 'השאלה לא פעילה';  
+                }else{ //if question status - off
+                     echo 'השאלה לא פעילה';
+
+                    
                 }
-                
             }  
         }else{
             echo '<div class="notification red"> <div class="insideNavbar" style="text-align:center;"><span>לא נמצא שאלון המקושר לסיסמא.</span></div></div>';  
         }
         
         $this->EndDB();  
-
         return $hasValidPass;
     }
      
