@@ -1,0 +1,307 @@
+body{
+	margin:0;
+	padding:0;
+	font-size:14px;
+	direction:rtl;
+	font-family:arial;
+	background:#f5f5f5;
+	color:#3a404d;
+}
+
+/* כללי */
+
+.inside{
+	width:990px;
+	margin:0 auto;
+}
+
+ul{
+    display: block;
+    list-style-type: disc;
+    -webkit-margin-before: 0em;
+    -webkit-margin-after: 0em;
+    -webkit-margin-start: 0px;
+    -webkit-margin-end: 0px;
+    -webkit-padding-start: 0px;
+}
+
+li{
+    list-style: none;
+}
+
+/* חלק עליון */
+
+.navbar{
+	float:right;
+	width:100%;
+	height:55px;
+	background:#36a8d9;
+}
+
+.insideNavbar{
+	width:990px;
+	margin:0 auto;
+}
+
+.upperLogo{
+	background:#1f90c4 url(../images/logo.png) no-repeat 10px 5px;
+	width:150px;
+	height:55px;
+	float:right;
+	padding:0 10px;
+}
+
+.header{
+	float:right;
+	width:100%;
+	min-height:150px;
+}
+
+.insideHeader{
+	float:right;
+	width:950px;
+	padding:10px 20px 40px 20px;
+	margin:0 auto;
+	background:#fff;
+	border-bottom:1px solid #dedede;
+	border-left:1px solid #dedede;
+	border-right:1px solid #dedede;
+	border-radius:3px
+}
+
+.paddTop30{
+	padding-top:30px;
+}
+
+.headerRight{
+	float:right;
+	width:100%;
+}
+
+.headerLeft{
+	float:left;
+	width:300px;
+}
+
+.headerTitle{
+	float:right;
+	width:100%;
+	font-size:24px;
+	padding-top:30px;
+}
+
+
+.headerInfo{
+	float:right;
+	padding-left:20px;
+	font-size:18px;
+	padding-top:13px;
+	color:#757575;
+}
+
+
+/* חלק מרכזי */
+
+.bodyWarp{
+	float:right;
+	width:100%;
+}
+
+.insideBody{
+	margin: 20px auto 0 auto;
+	width:990px;
+}
+
+.warpWhite{
+    float: left;
+    width: 100%;
+    background: #fff;
+    border-bottom: 1px solid #dedede;
+    border-left: 1px solid #dedede;
+    border-right: 1px solid #dedede;
+    border-radius: 3px;
+}
+
+.insideBodyNoBG{
+  margin: 0 auto;
+  width: 990px;
+  padding: 10px 0px;
+  
+}
+
+.sendButton{
+    float:left;
+    background-color: #62ab1d;
+    color:#fff;
+    padding: 12px 24px;
+    font-size: 18px;
+    margin-top:20px;
+    border:0px;
+    margin-bottom: 100px; 
+}
+
+/* כפתורי רדיו */
+
+.radiosMainDiv{
+  width: 250px;
+  float: left;
+  margin-left: 50px;
+}
+
+
+.radiosMainDiv label {
+    float: left;
+  display: block;
+  cursor: pointer;
+  line-height: 43px;
+    height:40px;
+    width: 40px;
+  font-size: 20px;
+    padding-right: 10px
+}
+
+.radiosMainDiv [type="radio"] {
+  display: none;
+}
+
+.radiosMainDiv [type="radio"] + span {
+  display: block;
+}
+
+.radiosMainDiv [type="radio"] + span:before {
+  content: '';
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  vertical-align: -0.25em;
+  border-radius: 1em;
+  border: 0.125em solid #fff;
+  box-shadow: 0 0 0 0.15em #c6c6c6;
+  margin-right: 0.75em;
+  transition: 0.5s ease all;
+}
+
+.radiosMainDiv [type="radio"]:checked + span:before {
+  background: #2de52d;
+  box-shadow: 0 0 0 0.20em #c6c6c6;
+}
+
+
+.radiosMainDiv [type="radio"]:focus + span:after {
+  content: '\0020\2190';
+  font-size: 1.5em;
+  line-height: 1;
+  vertical-align: -0.125em;
+}
+
+.radioLabels{
+float:left;
+    width:100%;
+}
+
+.smallerLabel{
+    float:right;
+    font-size: 12px;
+    color: #c6c6c6;
+  margin-right: 25px;
+}
+
+
+
+.biggerLabel{
+    float:left;
+    font-size: 12px;
+    color: #c6c6c6;
+}
+
+.questionDiv{
+    float:right;
+    width:600px;
+  font-size: 20px;
+  line-height: 20px;
+    margin-top:28px;
+    margin-right:20px;
+}
+
+.questionBlock{
+    float:left;
+    width:100%;
+    border-bottom: 1px solid #e7e7e7;
+    padding-bottom:10px;
+    padding-top:10px;
+}
+
+
+.SentSuccess{
+    width:400px;
+    margin:0 auto;
+}
+
+.SentSuccess img{
+    float: right;
+    margin-top: 30px;
+}
+
+.SentSuccess span{
+    line-height: 64px;
+    float: right;
+    font-size: 30px;
+    padding-right: 20px;
+    color: #717171;
+    margin-top: 30px;
+}
+
+.userLoginInput{
+    height:30px;
+    line-height: 30px;
+    font-size: 26px;
+    text-align: center;
+    color:#a8a8a8;
+    background: #fff;
+    float: right;
+    width: 270px;
+}
+
+.userLoginSubmit{
+    font-size: 19px;
+    background: #3ba813;
+    border: 0px;
+    color: #fff;
+    padding: 7px 20px;
+    float: right;
+    margin-right: 20px;
+    cursor: pointer;
+}
+
+
+.userIndexLogin{
+    width:453px;
+    margin:0 auto; 
+}
+
+.userIndexLogin span{
+    font-size: 29px;
+    text-align: center;
+    width: 100%;
+    float: right;
+    margin: 20px 0;
+    color: #989595;
+}
+
+
+.notification{
+    float:left;
+    width:100%;
+    height: 50px;
+}
+
+.red{
+    background: #f45252;
+}
+
+
+.red span{
+    line-height: 50px;
+    color:#fff;
+    font-size: 18px;
+}
