@@ -89,6 +89,10 @@ session_start();
          $result = mysql_query($sql, $conn);
 
          if( $result && mysql_num_rows($result) > 0){
+
+             //how mutch uniqe teachers - how mutch reports
+             $teacherCount = mysql_num_rows($result);
+
              while($row = mysql_fetch_array($result)) {
 
                     //  print("course ID: ".$row['id']. " name: ".$row['name']. " ID Megama: ".$row['id_megama']. " teacher ID: ".$row['teacher_id']. " class ID: ".$row['class_id']."<br><br>");
@@ -114,7 +118,7 @@ session_start();
 
                                  print("</pre>");
 
-         return;
+         return $teacherCount;
 
      }
 
