@@ -29,10 +29,10 @@ include 'header.php';
 					</div>
 					
 					<div class="headerInfo">
-					מרצה: <?php echo $_SESSION['feedback']['teacher'] ;?>
+					מרצה: <?php echo $_SESSION['feedback']['currentTeacher'] ;?>
 					</div>
 					<div class="headerInfo">
-					שם קורס: <?php echo $_SESSION['feedback']['course'] ;?>
+					שם קורס: <?php echo $_SESSION['feedback']['currentcourse'] ;?>
 					</div>
 				</div>
 
@@ -42,11 +42,19 @@ include 'header.php';
 
 
     <form action="Form_Sender.php" method="post">
+
+
+
         <!-- Question Loop -->
         <?php
          require_once('class/ReadDB.php');
-         $questions_loop = new ReadDB();
-         $res = $questions_loop->get_question();
+         $ReadDB = new ReadDB();
+         $res = $ReadDB->get_question();
+
+
+
+
+
         ?>
     
          <div class="insideBodyNoBG">

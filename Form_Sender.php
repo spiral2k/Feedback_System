@@ -75,15 +75,17 @@ mysql_query("SET NAMES utf8");
         //stringfy questions, question id, and value
         for($i=1 ; $i <= $question_count ; $i++){
 				//first: question text, sec: id of the question, third: value $$
-                $anserwsString .= $_SESSION['feedback']["q".$i]."#".$_SESSION['feedback']["q".$i."id"]."#".$_POST["radio".$i]."$$";
+                $anserwsString .= $_SESSION['feedback']['questions']["q".$i]."#".$_SESSION['feedback']['questions']["q".$i."id"]."#".$_POST["radio".$i]."$$";
         }
 
-        $class = $_SESSION["class"];
+        $class = $_SESSION['feedback']['class_id'];
+		$year = $_SESSION['feedback']['year'];
 
+
+		//this is for 'keep it uniq' [for DB ID]
         $feedback_count = $ReadDB->feedback_count();
         $feedback_count++;
 
-        $year = $_SESSION['year'];
 
         $WriteDB->Send_Feedbacks($feedback_count, $class, $year, $anserwsString);
 

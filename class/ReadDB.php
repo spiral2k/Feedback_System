@@ -3,6 +3,9 @@ session_start();
  header('Content-Type: text/html; charset=utf-8');  
  class ReadDB{
 
+
+     public $teacherCount;
+
      //count how mutch feedbacks we have in DB    
      public function feedback_count(){
      
@@ -46,18 +49,16 @@ session_start();
                 if($row["status"]){
 
                     //check the pass conf and put it on sessions
-                    $_SESSION['feedback_password']['year'] = $row['year'];
-                    $_SESSION['feedback_password']['class'] = $row['class_id'];
+                    $_SESSION['feedback']['year'] = $row['year'];
+                    $_SESSION['feedback']['class_id'] = $row['class_id'];
 
                     // Valid Pass
                     $hasValidPass = true;
 
                     // how mutch teachers have class
-                    $teacherCount = $this->teacherCountForClass($row['class_id']);
+                    $teacherCount = $this->getUniqueTeacherForClass($_SESSION['feedback']['class_id']);
 
-                    
-                    //header("Location: mashov.php");
-
+                    feedbackManager($teacherCount);
 
                 }else{  //if password status - off
                     echo '<div class="notification red"> <div class="insideNavbar" style="text-align:center;"><span>סיסמא לא פעילה.</span></div></div>';
@@ -73,9 +74,23 @@ session_start();
         return $hasValidPass;
     }
 
+public function feedbackManager(){
+
+
+
+    //header("Location: mashov.php");
+
+
+
+}
+
+
+
+
+
 
      // return uniqe count [teachers] for class and set it on the session
-     public function teacherCountForClass($class_id){
+     public function getUniqueTeacherForClass($class_id){
 
          // clear session for development;
          $_SESSION['teachers'] = "";
@@ -95,15 +110,14 @@ session_start();
 
              while($row = mysql_fetch_array($result)) {
 
-                    //  print("course ID: ".$row['id']. " name: ".$row['name']. " ID Megama: ".$row['id_megama']. " teacher ID: ".$row['teacher_id']. " class ID: ".$row['class_id']."<br><br>");
-
+                     //  print("course ID: ".$row['id']. " name: ".$row['name']. " ID Megama: ".$row['id_megama']. " teacher ID: ".$row['teacher_id']. " class ID: ".$row['class_id']."<br><br>");
                      $teacherID = $row['teacher_id'];
 
                      $sql2 = ("SELECT * FROM teacher WHERE id = $teacherID");
                      $results = mysql_query($sql2, $conn);
                      $row2 = mysql_fetch_array($results);
 
-                     $_SESSION['teachers']['teacher'.$idForSession]['id'] = $row['id'];
+                     $_SESSION['teachers']['teacher'.$idForSession]['id'] = $row2['id'];
                      $_SESSION['teachers']['teacher'.$idForSession]['course_name'] = $row['name'];
                      $_SESSION['teachers']['teacher'.$idForSession]['teacher_name'] = $row2['fname'] ." ". $row2['lname'];
 
@@ -111,12 +125,13 @@ session_start();
              }
 
          }
+         $_SESSION['teachers']['count'] = $teacherCount;
 
-                                 print("<pre>");
-
-                                    print_r($_SESSION['teachers']);
-
-                                 print("</pre>");
+         // for development ONLY!
+         print("<pre>");
+             print_r($_SESSION['teachers']);
+             print($teacherCount);
+         print("</pre>");
 
          return $teacherCount;
 
@@ -213,8 +228,8 @@ session_start();
                 
                 //insert questions and questions ID to SESSION to push it later to DB
                 //first row for the question text. sec row for the id of the question.
-                $_SESSION['feedback']["q".$uniqueID_Row] = $row["question"];
-                $_SESSION['feedback']["q".$uniqueID_Row."id"] = $row["id"];
+                $_SESSION['feedback']['questions']["q".$uniqueID_Row] = $row["question"];
+                $_SESSION['feedback']['questions']["q".$uniqueID_Row."id"] = $row["id"];
 
                 
 				$uniqueID_Row++;		
