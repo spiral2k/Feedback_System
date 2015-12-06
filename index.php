@@ -1,23 +1,6 @@
-<?php session_start(); 
-ob_start();
+<?php
+    include 'header.php';
 ?>
-
-<!doctype html>
-<html lang="he">
-<head>
-  <title>משוב למשתמש</title>
-
-  <!-- meta -->
-  <meta charset="utf-8" />
-  <meta name="author" content="Meni Edri">
-
-  <!-- CSS -->
-  <link rel="stylesheet" href="css/style.css">
-
-  <!-- JS -->
-  <script src="js/jquery.js"></script>
-  
-</head>
 
 <body>
 	<div class="navbar">
@@ -26,19 +9,13 @@ ob_start();
 		</div>
 	</div>
 
-<?php 
-
-        if(isset($_POST['userLogin'])){
-            
-            require_once('class/ReadDB.php');
-            
-            $_SESSION['user']['password'] = $_POST['userLogin'];  
-               
-            $login = new ReadDB();
-            $res = $login->check_login($_SESSION['user']['password']);
-            
-        }
-    
+    <?php
+            if(isset($_POST['userLogin'])){
+                require_once('class/ReadDB.php');
+                $_SESSION['user']['password'] = $_POST['userLogin'];
+                $login = new ReadDB();
+                $res = $login->check_login($_SESSION['user']['password']);
+            }
     ?>
     
     

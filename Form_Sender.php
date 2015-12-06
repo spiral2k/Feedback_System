@@ -73,8 +73,9 @@ mysql_query("SET NAMES utf8");
         $question_count = $ReadDB->count_question();
 
         //stringfy questions, question id, and value
-        for($i=1 ; $i <= $question_count ; $i++){        
-                $anserwsString .= $_SESSION['feedback']["q".$i]."#".$_SESSION['feedback']["q".$i."id"]."*".$_POST["radio".$i]."$$";
+        for($i=1 ; $i <= $question_count ; $i++){
+				//first: question text, sec: id of the question, third: value $$
+                $anserwsString .= $_SESSION['feedback']["q".$i]."#".$_SESSION['feedback']["q".$i."id"]."#".$_POST["radio".$i]."$$";
         }
 
         $class = $_SESSION["class"];

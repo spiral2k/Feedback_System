@@ -3,8 +3,6 @@ session_start();
  header('Content-Type: text/html; charset=utf-8');  
  class ReadDB{
 
-     
- 
      //count how mutch feedbacks we have in DB    
      public function feedback_count(){
      
@@ -43,24 +41,30 @@ session_start();
         // if DB return results
         if( $result && mysql_num_rows($result) > 0){     
             while($row = mysql_fetch_array($result)) {
-                
+
+                //if password status - on
                 if($row["status"]){
 
                     //check the pass conf and put it on sessions
                     $_SESSION['feedback_password']['year'] = $row['year'];
-                    $_SESSION['feedback_password']['class'] = $row['class'];      
+                    $_SESSION['feedback_password']['class'] = $row['class_id'];
 
                     // Valid Pass
                     $hasValidPass = true;
-                    
-                    header("Location: mashov.php");
-                    
-                }else{ //if question status - off
-                     echo 'השאלה לא פעילה';
+
+                    // how mutch teachers have class
+                    $teacherCount = $this->teacherCountForClass($row['class_id']);
 
                     
+                    //header("Location: mashov.php");
+
+
+                }else{  //if password status - off
+                    echo '<div class="notification red"> <div class="insideNavbar" style="text-align:center;"><span>סיסמא לא פעילה.</span></div></div>';
                 }
-            }  
+            }
+
+            //if password not found
         }else{
             echo '<div class="notification red"> <div class="insideNavbar" style="text-align:center;"><span>לא נמצא שאלון המקושר לסיסמא.</span></div></div>';  
         }
@@ -68,23 +72,89 @@ session_start();
         $this->EndDB();  
         return $hasValidPass;
     }
-     
-     
+
+
+     // return uniqe count [teachers] for class and set it on the session
+     public function teacherCountForClass($class_id){
+
+         // clear session for development;
+         $_SESSION['teachers'] = "";
+
+         $idForSession = "0";
+
+         $conn = $this->OpenDB();
+
+         $sql = ("SELECT * FROM course WHERE class_id = $class_id GROUP BY teacher_id");
+
+         $result = mysql_query($sql, $conn);
+
+         if( $result && mysql_num_rows($result) > 0){
+             while($row = mysql_fetch_array($result)) {
+
+                    //  print("course ID: ".$row['id']. " name: ".$row['name']. " ID Megama: ".$row['id_megama']. " teacher ID: ".$row['teacher_id']. " class ID: ".$row['class_id']."<br><br>");
+
+                     $teacherID = $row['teacher_id'];
+
+                     $sql2 = ("SELECT * FROM teacher WHERE id = $teacherID");
+                     $results = mysql_query($sql2, $conn);
+                     $row2 = mysql_fetch_array($results);
+
+                     $_SESSION['teachers']['teacher'.$idForSession]['id'] = $row['id'];
+                     $_SESSION['teachers']['teacher'.$idForSession]['course_name'] = $row['name'];
+                     $_SESSION['teachers']['teacher'.$idForSession]['teacher_name'] = $row2['fname'] ." ". $row2['lname'];
+
+                     $idForSession++;
+             }
+
+         }
+
+                                 print("<pre>");
+
+                                    print_r($_SESSION['teachers']);
+
+                                 print("</pre>");
+
+         return;
+
+     }
+
+
+     public function courseCountForClass($class_id){
+         $conn = $this->OpenDB();
+
+         $sql = ("SELECT *
+                  FROM `course`
+                  WHERE `class_id` = $class_id");
+
+         $result = mysql_query($sql, $conn);
+
+         $courseCount = mysql_num_rows($result);
+
+
+         return;
+
+     }
+
+
+
      
 	public function get_question() {
         
-        $conn = $this->OpenDB();
-            
+            $conn = $this->OpenDB();
+
             // Unique id for row
             $uniqueID_Row = 1; 
         
             // Unique id for radio buttons
-            $uniqueID = 0;    
+            $uniqueID = 0;
 
         
             //תמיכה בעברית
             mysql_query("SET NAMES 'utf8'");
 
+
+            // empty session for development only
+            $_SESSION['feedback'] = "";
         
             //Div Header
         	echo '<div class="bodyWarp">
@@ -97,25 +167,25 @@ session_start();
 			$result = mysql_query($sql, $conn);
         
             while($row = mysql_fetch_array($result)) {
-                                
+
             echo '<li class="questionBlock" data-type="'. $row["type"] .'">
                 <div class="radiosMainDiv">
                     <div class="radioLabels">
                         <div class="smallerLabel">
-                            נמוך
+ גבוהה
                         </div>
 
                         <div class="biggerLabel">
-                            גבוהה
-                        </div>              
+    נמוך
+                   </div>
                     </div>
                     
                       <label for="q'.$uniqueID.'">
-                        <input type="radio" value="5" name="radio'.$uniqueID_Row.'" id="q'.$uniqueID++.'"><span></span>
+                        <input type="radio" value="1" name="radio'.$uniqueID_Row.'" id="q'.$uniqueID++.'"><span></span>
                       </label>
 
                       <label for="q'.$uniqueID.'">
-                        <input type="radio" value="4" name="radio'.$uniqueID_Row.'" id="q'.$uniqueID++.'"> <span></span>
+                        <input type="radio" value="2" name="radio'.$uniqueID_Row.'" id="q'.$uniqueID++.'"> <span></span>
                       </label>
 
                       <label for="q'.$uniqueID.'">
@@ -123,11 +193,11 @@ session_start();
                       </label>
                     
                       <label for="q'.$uniqueID.'">
-                        <input type="radio" value="2" name="radio'.$uniqueID_Row.'" id="q'.$uniqueID++.'"> <span></span>
+                        <input type="radio" value="4" name="radio'.$uniqueID_Row.'" id="q'.$uniqueID++.'"> <span></span>
                       </label>
 
                       <label for="q'.$uniqueID.'">
-                        <input type="radio" value="1" name="radio'.$uniqueID_Row.'" id="q'.$uniqueID++.'"> <span></span>
+                        <input type="radio" value="5" name="radio'.$uniqueID_Row.'" id="q'.$uniqueID++.'"> <span></span>
                       </label>
                                       
 
@@ -138,8 +208,10 @@ session_start();
                 </li>';
                 
                 //insert questions and questions ID to SESSION to push it later to DB
+                //first row for the question text. sec row for the id of the question.
                 $_SESSION['feedback']["q".$uniqueID_Row] = $row["question"];
                 $_SESSION['feedback']["q".$uniqueID_Row."id"] = $row["id"];
+
                 
 				$uniqueID_Row++;		
 			}

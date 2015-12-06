@@ -1,31 +1,6 @@
-<?php session_start(); ?>
-
-<!doctype html>
-<html lang="he">
-<head>
-  <title>משוב למשתמש</title>
-
-  <!-- meta -->
-  <meta http-equiv='Content-Type' content='text/html; charset=utf-8' />
-  <meta name="author" content="Meni Edri">
-
-  <!-- CSS -->
-  <link rel="stylesheet" href="css/style.css">
-
-  <!-- JS -->
-  <script src="js/jquery.js"></script>
-  
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/tinysort/2.2.2/tinysort.js"></script>
-    
-    <script>
-        
-        $(document).ready(function(){
-            tinysort('ul#questionsList>li',{attr:'data-type'});           
-        });
-
-    </script>
-    
-</head>
+<?php
+include 'header.php';
+?>
 
 <body>
 	<div class="navbar">
@@ -36,9 +11,10 @@
 
     
     <?php
-    print_r($_SESSION);
-    
-    ?>
+    echo "<pre>";
+    print_r($_SESSION['feedback']);
+    echo "</pre>";
+   ?>
     
 	<div class="header paddTop30">
 		<div class="inside">
@@ -63,8 +39,8 @@
 			</div>			
 		</div>
 	</div>
-	
-    
+
+
     <form action="Form_Sender.php" method="post">
         <!-- Question Loop -->
         <?php
@@ -77,8 +53,11 @@
             <input type="submit" class="sendButton" name="SendFeedback" value="שליחת משוב">
          </div>
     </form>
-    
 
+    <script>
+        $(document).ready(function(){
+            tinysort('ul#questionsList>li',{attr:'data-type'});
+        });
+    </script>
 </body>
-  <script src="js/scripts.js"></script>
 </html>
